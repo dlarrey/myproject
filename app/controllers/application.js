@@ -18,8 +18,6 @@ var Photo = Ember.Object.extend({
 });
 
 
-
-
 // var PhotoCollection = Ember.ArrayProxy.extend(Ember.SortableMixin, {
 //     sortProperties: ['title'],
 //     sortAscending: true,
@@ -64,7 +62,8 @@ var PhotoCollection = Ember.ArrayProxy.extend(Ember.SortableMixin, {
 
 export default Ember.Controller.extend({
     photos: PhotoCollection.create(),
-   searchField: '',
+    searchField: '',
+    tagSearchField: '',
     filteredPhotos: function () {
         var filter = this.get('searchField');
         var rx = new RegExp(filter, 'gi');
@@ -74,16 +73,17 @@ export default Ember.Controller.extend({
             return photo.get('title').match(rx) || photo.get('username').match(rx);
         });
     }.property('photos','searchField'),
+    
+
     actions: {
         search: function () {
-            this.get('filteredPhotos');
+            this.get('photos').content.clear();
+            this.send('getPhotos',this.get('tagSearchField'));
         },
-
-        getPhotos: function(){
-            var apiKey = '1c81ab9e9be0f2efb87e2f56210406f9'; // Secret 1b6248eeaa721bbf46afdefe8cde4ac04e84904e6e10de9e';
+        getPhotos: function(tag){
+            var apiKey = '4435e3a217bc7afc94dfcba607b70eb1';
             var host = 'https://api.flickr.com/services/rest/';
             var method = "flickr.tags.getClusterPhotos";
-            var tag = "hi";
             var requestURL = host + "?method="+method + "&api_key="+apiKey+"&tag="+tag+"&format=json&nojsoncallback=1";
             var photos = this.get('photos');
             Ember.$.getJSON(requestURL, function(data){
@@ -102,11 +102,12 @@ export default Ember.Controller.extend({
                         server: photo.server,
                     });
                     photos.pushObject(newPhotoItem);
-                })
+                });
             });
-        },  
-
+        },
     }
+
+    
 });
 
 
