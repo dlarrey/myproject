@@ -60,7 +60,7 @@ export default Ember.Controller.extend({
         },
 
         getPhotos: function(){
-            var apiKey = '46afdefe8cde4ac04e84904e6e10de9e';
+            var apiKey = '1c81ab9e9be0f2efb87e2f56210406f9'; // Secret 1b6248eeaa721bbf
             var host = 'https://api.flickr.com/services/rest/';
             var method = "flickr.tags.getClusterPhotos";
             var tag = "hi";
