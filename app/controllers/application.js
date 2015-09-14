@@ -57,9 +57,22 @@ export default Ember.Controller.extend({
     actions: {
         search: function () {
             this.get('filteredPhotos');
-        }
+        },
+
+        getPhotos: function(){
+            var apiKey = '46afdefe8cde4ac04e84904e6e10de9e';
+            var host = 'https://api.flickr.com/services/rest/';
+            var method = "flickr.tags.getClusterPhotos";
+            var tag = "hi";
+            var requestURL = host + "?method="+method + "&api_key="+apiKey+"&tag="+tag+"&format=json&nojsoncallback=1";
+            Ember.$.getJSON(requestURL, function(data){//callback for successfully completed requests
+                console.log(data);
+            });
+
+        },
     }
 });
+
 
 
 
