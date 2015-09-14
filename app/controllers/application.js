@@ -64,6 +64,7 @@ export default Ember.Controller.extend({
     photos: PhotoCollection.create(),
     searchField: '',
     tagSearchField: '',
+
     filteredPhotos: function () {
         var filter = this.get('searchField');
         var rx = new RegExp(filter, 'gi');
@@ -72,7 +73,7 @@ export default Ember.Controller.extend({
         return photos.filter(function(photo){
             return photo.get('title').match(rx) || photo.get('username').match(rx);
         });
-    }.property('photos','searchField'),
+    }.property('photos.@each','searchField'),
     
 
     actions: {
@@ -106,20 +107,4 @@ export default Ember.Controller.extend({
             });
         },
     }
-
-    
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
