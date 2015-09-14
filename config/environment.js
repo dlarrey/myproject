@@ -18,14 +18,14 @@ module.exports = function(environment) {
       // when it is created
     },
   contentSecurityPolicy: {
-    'default-src': "'self' ",
-    'script-src': "'self' ", // Allow scripts from self only, this prevents injection and XSS attacks
-    'font-src': "'self', http: https:", // Allow fonts to be loaded from self only or any http/https source
-    'connect-src': "'self'", //Allow data (ajax/websocket) from self only (The same IP as this app)
-    'img-src':"'self' http: https:", // Allow images from any http/https server
-    'style-src': "'self'", // Allow inline styles and loaded CSS from same IP
-    'media-src': "'self' "
-  }
+      'default-src': "'self' ",
+      'script-src': "'self' ", 
+      'font-src': "'self' ", 
+      'connect-src': "'self' https://api.flickr.com", //Allow JSON requests to the flickr api
+      'img-src': "'self' http: https:", //Allow images from any http/https 
+      'style-src': "'self' ", 
+      'media-src': "'self' "
+    }
 };
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
