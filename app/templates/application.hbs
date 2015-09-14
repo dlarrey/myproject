@@ -15,13 +15,23 @@
 		</div>
 	</div>
 </nav>
+
 <div class="container">
-	<ul class="list-group">
-	  {{#each photo in filteredPhotos}}
-		<li class="list-group-item">
-			{{photo.title}} ({{photo.username}})<br>
-			<img class="feed-img" src={{photo.url}} />
-		</li>
-	  {{/each}}
-	</ul>
+
+	{{#if filteredPhotos}}
+		<ul class="list-group">
+			{{#each photo in filteredPhotos}}
+			<li class="list-group-item">
+				{{photo.title}} ({{photo.username}})<br>
+				<img class="feed-img" src={{photo.url}} />
+			</li>
+			{{/each}}
+		</ul>
+	{{else}}
+		<div class="jumbotron">
+			<h1>[app-name]</h1>
+			<p>Created by [yourname]</p>
+			<p>Search for a flickr tag to load the most recent images</p>
+		</div>
+	{{/if}}
 </div>
