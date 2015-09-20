@@ -5,10 +5,11 @@
 			<a class="navbar-brand" href="#">My App</a>
 		</div>
 		<div class="navbar-right search-field">
-			{{#bs-form formLayout="inline" action="search"}}
-				{{#if filteredPhotos}}
-					{{bs-input type="text" value=searchField placeholder="filter photos"}}
-				{{/if}}
+				{{#bs-form formLayout="inline" action="search"}}
+					{{#if filteredPhotos}}
+					<label class="control-label">Search By Name:</label>
+						{{bs-input type="text" value=searchField placeholder="filter photos"}}
+					{{/if}}
 				{{bs-input type="text" value=tagSearchField action="search" placeholder="search for a flickr tag"}}
 				<button type="submit" class="btn btn-default">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -19,24 +20,48 @@
 </nav>
 
 <div class="container">
+{{#liquid-if filteredPhotosLoaded use="toDown"}}
+	<ul class="list-group">
+		{{#each photo in filteredPhotos}}
+		<li class="list-group-item">
+			<div class="media">
+				<div class="media-left media-middle">
+					{{light-box href=photo.url data-lightbox=photo.id data-title=photo.title
+						data-class="media-object feed-img"}}
+					Taken: <a href={{photo.link}}>{{photo.humanReadableDate}}<br></a>
+					By: <a href={{photo.ownerurl}} target="_blank">{{photo.owner.username}}</a><br>
+				</div>
+				<div class="media-body">
+					<h4 class="media-heading">{{photo.title}} ({{photo.views}} Views)</h4>
+					{{{photo.description}}}
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-1 col-xs-1 col-sm-1">Tags:</div>
+				<div class="col-md-11 col-xs-11 col-sm-11">
+					{{#each tag in photo.tags}}
+						<button class="btn btn-info btn-xs post-tag-button" {{action "clicktag" tag}}>#{{tag}}</button>
+					{{/each}}
+				</div>
+			</div>
 
-	{{#if filteredPhotos}}
-		<ul class="list-group">
-			{{#each photo in filteredPhotos}}
-			<li class="list-group-item">
-				{{photo.title}} ({{photo.username}})<br>
-				<img class="feed-img" src={{photo.url}} />
-			</li>
-			{{/each}}
-		</ul>
-	{{else}}
-		<div class="jumbotron">
-			<h1>[app-name]</h1>
-			<p>Created by [yourname]</p>
-			<p>Click one of the popular flickr tags below or search one above:</p>
-			{{#each tag in tagList}}
-				<button class="btn btn-info tag-button" {{action "clicktag" tag}}>{{tag}}</button>
-			{{/each}}
-		</div>
-	{{/if}}
+		</li>
+		{{/each}}
+	</ul>
+{{else}}
+	{{#liquid-if loading use="toDown"}}
+			<img src="../page-loading.gif" class="img-responsive center-block"/>
+		{{else}}
+			<div class="jumbotron">
+				<h1>My Project</h1>
+				<p>Created by Dec Larrey</p>
+				<p>Click one of the popular flickr tags below or search one above:</p>
+				{{#each tag in tagList}}
+					<button class="btn btn-info btn-small tag-button" {{action "clicktag" tag}}>#{{tag}}</button>
+				{{/each}}
+			</div>
+		{{/liquid-if}}
+
+{{/liquid-if}}
 </div>
